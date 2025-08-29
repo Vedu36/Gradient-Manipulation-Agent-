@@ -33,27 +33,27 @@ class ApplyGradientTool(BaseTool):
     def _run(self, svg_content: str, config: Dict[str, Any]) -> str:
         root = ET.fromstring(svg_content)
 
-        # Create <defs> if missing
+        # Creating <defs> if missing
         defs = root.find("{http://www.w3.org/2000/svg}defs")
         if defs is None:
             defs = ET.SubElement(root, "defs")
 
         grad_id = "grad1"
 
-        # Linear Gradient
+        # For Linear Gradient
         if config.get("gradient_type") == "linear":
             grad = ET.SubElement(defs, "linearGradient", id=grad_id)
             if config.get("direction") == "vertical":
                 grad.attrib.update({"x1": "0%", "y1": "0%", "x2": "0%", "y2": "100%"})
-            else:  # default horizontal
+            else:  # For horizontal
                 grad.attrib.update({"x1": "0%", "y1": "0%", "x2": "100%", "y2": "0%"})
 
-        # Radial Gradient
+        # ForRadial Gradient
         elif config.get("gradient_type") == "radial":
             grad = ET.SubElement(defs, "radialGradient", id=grad_id)
             grad.attrib.update({"cx": "50%", "cy": "50%", "r": "50%"})
 
-        # Add color stops
+        # Adding color stops
         for stop in config.get("stops", []):
             ET.SubElement(
                 grad, "stop",
@@ -61,8 +61,8 @@ class ApplyGradientTool(BaseTool):
                 style=f"stop-color:{stop['color']}; stop-opacity:1"
             )
 
-        # Update target element
-        target_shape = config.get("target_shape", "*")
+        # Updating target elements
+        target_shape = config.get("target_shape", "*") 
         target_color = config.get("target_color")
 
         for elem in root.findall(f".//{{http://www.w3.org/2000/svg}}{target_shape}"):
