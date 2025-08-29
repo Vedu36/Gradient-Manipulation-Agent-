@@ -2,7 +2,16 @@ from crewai import Crew
 import json
 from agents import parser, modifier, checker
 from tasks import get_tasks
-from tools import read_svg, write_svg
+
+# Functions for SVG File reading
+def read_svg(file_path: str) -> str:
+    with open(file_path, "r") as f:
+        return f.read()
+
+# Functions for SVG File Writing
+def write_svg(file_path: str, content: str):
+    with open(file_path, "w") as f:
+        f.write(content)
 
 # Taking Input
 user_prompt = "Change the red rectangle to have a vertical gradient from #ff0000 to #0000ff."
@@ -33,3 +42,4 @@ print(json.dumps(workflow_log, indent=2))
 print("\nBefore SVG:\n", input_svg[:500])
 print("\nAfter SVG:\n", result[:800])
 print("\nSaved output.svg")
+
